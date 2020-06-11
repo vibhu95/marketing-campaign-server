@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=development PORT=7000 SENDGRID_API_KEY='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' node server.js"
+    "start": "SENDGRID_API_KEY='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' node server.js"
   },
   "author": "Vibhuti",
   "license": "MIT"

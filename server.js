@@ -19,7 +19,7 @@ app.use(_setCors);
 
 const routers = new Routes(app);
 routers.init_Routes();
-_init();
+// _init();
 G.rootPath = __dirname;
 console.log('G.rootPath ::: '+G.rootPath);
 
@@ -27,7 +27,6 @@ app.listen(7000);
 
 console.log('NODE_ENV ::: '+process.env.NODE_ENV);
 console.log('NODE_ENV ::: '+process.env.PORT);
-console.log('NODE_ENV ::: '+process.env.SENDGRID_API_KEY);
 console.log(`Worker ${process.pid} started`);
 
 
