@@ -3,6 +3,8 @@ const G = require('../globals');
 const sendGrid = require("@sendgrid/mail");
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const Dao = require('../data/dao/common');
+const cron = require('node-cron');
 
 const _init = ()=>{
     Q(undefined)
@@ -14,6 +16,9 @@ const _init = ()=>{
     })
     .then(()=>{
         return _initMongoConnection()
+    })
+    .then(()=>{
+        return _initCronJobs()
     })
     .fail((err)=>{
         console.error(err);
@@ -43,6 +48,49 @@ function _initMongoConnection(){
         G.mongoClient = client;
         return Q.resolve();
     });
+}
+
+function _initCronJobs(){
+    const commonDao = new Dao();
+    Q(undefined)
+    .then(()=>{
+        commonDao.getSubscribedRecipients(result=>{
+            return result;
+        });
+    }).then(recipients => {
+        commonDao.getCampaings(result => {
+            result.forEach(element => {
+
+                let mailCounter = `${G.congif.global.host}/auth/${element._id}/counter`;
+
+                cron.schedule(`* * * * ${element.scheduler}`,()=>{
+                    recipients.map(recipient=>{
+                        let unsubscribeUrl = `${G.congif.global.host}/auth/${element._id}/${recipient._id}/unsubscribe`;
+                        const msg = {
+                            to: recipient._Email,
+                            from: 'vibhuti@antrepriz.com',
+                            subject: element.subject,
+                            // text: element.mail,
+                            html: `<h2>Hi , ${recipient._Name}</h2><h4>${element.mail}</h4><img width='5px' height='5px' src='${mailCounter}'/><a href='${unsubscribeUrl}'>unsubscribe</a>`,
+                          };
+                          (async () => {
+                            try {
+                              await G.mailer.send(msg);  // we can use sendMultiple as well if unsubcribe is not required
+                            } catch (error) {
+                              console.error(error);
+                          
+                              if (error.response) {
+                                console.error(error.response.body)
+                              }
+                            }
+                          })();
+                    });
+                });
+            });
+        });
+    }).fail(()=>{
+
+    }).done();
 }
 
 module.exports = _init;

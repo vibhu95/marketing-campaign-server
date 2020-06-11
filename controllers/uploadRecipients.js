@@ -3,10 +3,9 @@ const csvtojson = require('csvtojson');
 const Recipient = require("../data/models/Recipient");
 const Dao = require('../data/dao/common');
 const G = require('../globals');
+const fs = require('fs');
 
 const upload = (filePath, res)=>{
-    console.log('filePath ::: '+filePath);
-    console.log('full path ::: '+path.join(G.rootPath,filePath));
     let emp = [];
     csvtojson()
     .fromFile(path.join(G.rootPath,filePath))
@@ -18,11 +17,21 @@ const upload = (filePath, res)=>{
             emp.push(e);
         })
     }).then(()=>{
-        emp.forEach(item=>{
-            console.log(`item ::: ${item.Name}`);
-        });
+        console.table(emp.map(i=>i.Name));
+        
+        // Persisting the records
         const CommonDao = new Dao();
         CommonDao.addRecipients(emp,()=>{});
+    }).then(()=>{
+        fs.unlink(path.join(G.rootPath,filePath),err=>{
+            if(err && err.code == 'ENOENT') {
+                console.info("File doesn't exist, won't remove it.");
+            } else if (err) {
+                console.error("Error occurred while trying to remove file");
+            } else {
+                console.info(`removed`);
+            }
+        });
     });
     res.end("true");
 }

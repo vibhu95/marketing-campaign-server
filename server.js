@@ -16,6 +16,8 @@ if(cluster.isMaster){
     for(let i=1;i<numCPUs;i++){
         cluster.fork();
     }
+
+    // Handle all connection close jobs here
     cluster.on('exit', (worker, code, signal) => {
 
       if(G.mongoClient){
