@@ -1,7 +1,7 @@
 const express = require('express');
 // const cluster = require('cluster');
 // const numCPUs = require('os').cpus().length;
-const Routes = require('./routers/Routes');
+// const Routes = require('./routers/Routes');
 // const morgan = require('morgan');
 const G = require('./globals');
 const _init = require('./controllers/init');
@@ -17,8 +17,8 @@ const app = express();
 
 app.use(_setCors);
 
-const routers = new Routes(app);
-routers.init_Routes();
+// const routers = new Routes(app);
+// routers.init_Routes();
 _init();
 G.rootPath = __dirname;
 
