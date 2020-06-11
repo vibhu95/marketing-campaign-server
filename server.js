@@ -8,26 +8,6 @@ const _init = require('./controllers/init');
 const fs = require('fs');
 const path = require('path');
 
-if(cluster.isMaster){
-
-    console.log(`Master ${process.pid} is running`);
-
-    // To ignore the over usage of cpu
-    for(let i=1;i<numCPUs;i++){
-        cluster.fork();
-    }
-
-    // Handle all connection close jobs here
-    cluster.on('exit', (worker, code, signal) => {
-
-      if(G.mongoClient){
-        G.mongoClient.close();
-      }
-
-      console.log(`worker ${worker.process.pid} died`);
-    });
-}else{
-
 const app = express();
 
 // filter out successfull responses for morgan
@@ -57,5 +37,4 @@ function _setCors(req, res, next) {
   res.header("Access-Control-Allow-Methods", ['GET','PUT','POST','OPTIONS'].join());
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
-}
 }
