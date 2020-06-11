@@ -13,11 +13,11 @@ const app = express();
 // filter out successfull responses for morgan
 app.use(morgan('dev', { skip : (req, res) => res.statusCode < 400 }));
 // log all requests to error.log
-app.use(morgan('common', {    stream: fs.createWriteStream(path.join(__dirname, 'error.log'), { flags: 'a' }) }))
+app.use(morgan('common', { stream: fs.createWriteStream(path.join(__dirname, 'error.log'), { flags: 'a' }) }))
 
-app.use(_setCors);
+// app.use(_setCors);
 
-const routers = new Routes(app);
+// const routers = new Routes(app);
 // routers.init_Routes();
 // _init();
 G.rootPath = __dirname;
@@ -25,8 +25,6 @@ G.rootPath = __dirname;
 app.listen(process.env.PORT || 7700, function() {
   console.log("Server up and listening");
 });
-
-console.log(`Worker ${process.pid} started`);
 
 function _setCors(req, res, next) {
   res.header("Access-Control-Allow-Origin", ['*'].join());
