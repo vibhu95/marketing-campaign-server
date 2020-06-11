@@ -18,8 +18,8 @@ app.use(morgan('common', {    stream: fs.createWriteStream(path.join(__dirname, 
 app.use(_setCors);
 
 const routers = new Routes(app);
-routers.init_Routes();
-_init();
+// routers.init_Routes();
+// _init();
 G.rootPath = __dirname;
 
 app.listen(process.env.PORT || 7700, function() {
