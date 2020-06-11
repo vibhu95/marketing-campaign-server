@@ -1,7 +1,7 @@
 const express = require('express');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-const Routes = require('./routers/Routes');
+const Routes = require('./routers/routes');
 const morgan = require('morgan');
 const G = require('./globals');
 const _init = require('./controllers/init');
@@ -18,12 +18,14 @@ app.use(morgan('common', {    stream: fs.createWriteStream(path.join(__dirname, 
 app.use(_setCors);
 
 const routers = new Routes(app);
-routers.init_Routes();
+// routers.init_Routes();
 // _init();
 G.rootPath = __dirname;
 console.log('G.rootPath ::: '+G.rootPath);
 
-app.listen(7000);
+app.listen(process.env.PORT || 7700, function() {
+  console.log("Server up and listening");
+});
 
 console.log('NODE_ENV ::: '+process.env.NODE_ENV);
 console.log('NODE_ENV ::: '+process.env.PORT);
