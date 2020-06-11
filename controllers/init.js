@@ -5,8 +5,9 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const Dao = require('../data/dao/common');
 const cron = require('node-cron');
+const Routes = require('../routers/routes');
 
-const _init = ()=>{
+const _init = (app)=>{
     Q(undefined)
     .then(()=>{
         return _initConfig()
@@ -26,6 +27,10 @@ const _init = ()=>{
     })
     .fail((err)=>{
         console.error(err);
+    })
+    .finally(()=>{
+        const routers = new Routes(app);
+        routers.init_Routes();
     })
     .done();
 }

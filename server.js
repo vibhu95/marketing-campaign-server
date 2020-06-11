@@ -1,7 +1,6 @@
 const express = require('express');
 // const cluster = require('cluster');
 // const numCPUs = require('os').cpus().length;
-const Routes = require('./routers/Routes');
 // const morgan = require('morgan');
 const G = require('./globals');
 const _init = require('./controllers/init');
@@ -17,11 +16,8 @@ const app = express();
 
 app.use(_setCors);
 
-
 G.rootPath = __dirname;
-_init();
-const routers = new Routes(app);
-routers.init_Routes();
+_init(app);
 
 app.listen(process.env.PORT || 7800, function() {
   console.log("Server up and listening");
