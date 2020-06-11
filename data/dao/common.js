@@ -7,14 +7,6 @@ class Dao{
     }
 
     addRecipients(list, cb){
-        const collection = this.db.collection('cronpid');
-        collection.insertMany(list, (err, result)=>{
-            console.log("Recipients added into the collection");
-            cb(result);
-        });
-    }
-
-    addRecipients(list, cb){
         const collection = this.db.collection('recipients');
         collection.insertMany(list, (err, result)=>{
             console.log("Recipients added into the collection");

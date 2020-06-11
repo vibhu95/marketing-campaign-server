@@ -44,5 +44,6 @@ console.log('G.rootPath ::: '+G.rootPath);
 
 app.listen(7000);
 
+console.log('NODE_ENV ::: '+process.env.NODE_ENV);
 console.log(`Worker ${process.pid} started`);
 }

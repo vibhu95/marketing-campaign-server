@@ -18,6 +18,10 @@ const _init = ()=>{
         return _initMongoConnection()
     })
     .then(()=>{
+        
+        return Q.resolve();
+    })
+    .then(()=>{
         return _initCronJobs()
     })
     .fail((err)=>{
