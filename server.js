@@ -1,12 +1,12 @@
 const express = require('express');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-const Routes = require('./routers/Routes');
-const morgan = require('morgan');
+// const cluster = require('cluster');
+// const numCPUs = require('os').cpus().length;
+// const Routes = require('./routers/Routes');
+// const morgan = require('morgan');
 const G = require('./globals');
-const _init = require('./controllers/init');
-const fs = require('fs');
-const path = require('path');
+// const _init = require('./controllers/init');
+// const fs = require('fs');
+// const path = require('path');
 
 const app = express();
 
@@ -26,9 +26,9 @@ app.listen(process.env.PORT || 7800, function() {
   console.log("Server up and listening");
 });
 
-function _setCors(req, res, next) {
-  res.header("Access-Control-Allow-Origin", ['*'].join());
-  res.header("Access-Control-Allow-Methods", ['GET','PUT','POST','OPTIONS'].join());
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  next();
-}
+// function _setCors(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", ['*'].join());
+//   res.header("Access-Control-Allow-Methods", ['GET','PUT','POST','OPTIONS'].join());
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+//   next();
+// }
